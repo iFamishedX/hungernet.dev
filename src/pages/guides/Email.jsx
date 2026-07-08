@@ -49,13 +49,18 @@ export default function EmailGuide() {
   }, []);
 
   // Validation
-  const emailRegex =
-    /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const validEmail = emailRegex.test(email);
 
   const validPassword = password.startsWith("cfut_");
 
   const ready = validEmail && name && validPassword;
+
+  // Masked password for display
+  const maskedPassword =
+    validPassword
+      ? "cfut_" + "•".repeat(password.length - 5)
+      : password;
 
   const generateGuide = () => {
     if (!ready) return;
@@ -191,7 +196,11 @@ export default function EmailGuide() {
                       <CopyField label="SMTP Server" value="smtp.mx.cloudflare.net" />
                       <CopyField label="Port" value="465" />
                       <CopyField label="Username" value="api_token" />
-                      <CopyField label="Password" value={password} />
+                      <CopyField
+                        label="Password"
+                        value={password}
+                        displayValue={maskedPassword}
+                      />
                       <CopyField label="Security" value="SSL" />
                     </div>
 
