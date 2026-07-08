@@ -57,7 +57,7 @@ export default function EmailGuide() {
   const ready = validEmail && name && validPassword;
 
   // Masked password for display
-  const maskedPassword = validPassword ? "cfut_..." : password;
+  const maskedPassword = validPassword ? "cfut_••••••••••••••••••••" : password;
 
   const generateGuide = () => {
     if (!ready) return;
