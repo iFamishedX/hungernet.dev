@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GlassCard, GlassButton } from "ifamished-ui";
+import { GlassCard, GlassButton, HeroHeader, InputBox } from "ifamished-ui";
 
 export default function EmailGuide() {
   const [user, setUser] = useState("");
@@ -7,61 +7,43 @@ export default function EmailGuide() {
   const [apiToken, setApiToken] = useState("");
   const [smtpPassword, setSmtpPassword] = useState("");
 
-  const generated = user && domain && apiToken && smtpPassword;
+  const ready = user && domain && apiToken && smtpPassword;
 
   return (
     <div className="page">
-      <div className="page-header fade-in-up">
-        <h1>FAQ</h1>
-        <p>Answers to the most common questions about the Hunger SMP.</p>
-    </div>
+      <HeroHeader
+        title="Email Setup Guide"
+        subtitle="Generate a personalized Gmail + Cloudflare SMTP guide."
+      />
 
       <section className="section">
-        <GlassCard className="input-card">
-          <h3>Input Details</h3>
-          <p>Fill in the fields below to generate your custom guide.</p>
+        <GlassCard className="guide-input-card">
+          <h3>Enter Your Details</h3>
+          <p>These values will be used to generate your custom guide.</p>
 
-          <div className="form-grid">
-            <label>
-              <span>Email Username</span>
-              <input
-                type="text"
-                placeholder="example"
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
-              />
-            </label>
+          <InputBox
+            value={user}
+            onChange={setUser}
+            placeholder="Email username (example)"
+          />
 
-            <label>
-              <span>Domain</span>
-              <input
-                type="text"
-                placeholder="hungernet.ifamished.com"
-                value={domain}
-                onChange={(e) => setDomain(e.target.value)}
-              />
-            </label>
+          <InputBox
+            value={domain}
+            onChange={setDomain}
+            placeholder="Domain (hungernet.ifamished.com)"
+          />
 
-            <label>
-              <span>API Token (Cloudflare SMTP Username)</span>
-              <input
-                type="text"
-                placeholder="api_token"
-                value={apiToken}
-                onChange={(e) => setApiToken(e.target.value)}
-              />
-            </label>
+          <InputBox
+            value={apiToken}
+            onChange={setApiToken}
+            placeholder="Cloudflare API Token (SMTP username)"
+          />
 
-            <label>
-              <span>SMTP Password</span>
-              <input
-                type="text"
-                placeholder="cfut_..."
-                value={smtpPassword}
-                onChange={(e) => setSmtpPassword(e.target.value)}
-              />
-            </label>
-          </div>
+          <InputBox
+            value={smtpPassword}
+            onChange={setSmtpPassword}
+            placeholder="SMTP Password (cfut_...)"
+          />
 
           <GlassButton
             size="md"
@@ -72,34 +54,30 @@ export default function EmailGuide() {
           </GlassButton>
         </GlassCard>
 
-        {generated && (
-          <GlassCard className="guide-card fade-in-up">
-            <h3>Your Personalized Email Setup Guide</h3>
+        {ready && (
+          <GlassCard className="generated-guide fade-in-up">
+            <h3>Your Personalized Guide</h3>
 
             <p>
-              This guide walks you through setting up{" "}
-              <strong>{user}@{domain}</strong> to send mail through Gmail using
-              Cloudflare’s SMTP service.
+              This guide is for: <strong>{user}@{domain}</strong>
             </p>
 
             <hr />
 
             <h4>1. Initial Setup</h4>
             <p>
-              Before you can do anything in Gmail, I need to set up email
-              forwarding on my end. DM me your personal Gmail address. Do{" "}
-              <strong>NOT</strong> use a school or work email — it will not work.
+              DM me your personal Gmail address. Do <strong>NOT</strong> use a
+              school or work email — it will not work.
             </p>
 
             <p>
-              Once I have your email, I will send you a confirmation email from
-              Cloudflare. Open it and accept the forwarding request.
+              You will receive a Cloudflare forwarding confirmation email. Open
+              it and accept the request.
             </p>
 
             <hr />
 
             <h4>2. Add Your Email to Gmail</h4>
-            <p>Open your personal Gmail inbox and follow these steps:</p>
 
             <ul>
               <li>Settings → See all settings → Accounts and import</li>
@@ -109,14 +87,14 @@ export default function EmailGuide() {
             <p>Enter:</p>
 
             <ul>
-              <li>Name: anything you want</li>
+              <li>Name: anything</li>
               <li>Email address: <strong>{user}@{domain}</strong></li>
               <li>Uncheck “Treat as an alias”</li>
             </ul>
 
-            <p>Click <strong>Next</strong> and enter the following SMTP values:</p>
+            <p>Click <strong>Next</strong> and enter:</p>
 
-            <GlassCard className="smtp-card">
+            <GlassCard className="smtp-values">
               <pre>
 SMTP Server: smtp.mx.cloudflare.net
 Port: 465
@@ -127,16 +105,16 @@ Security: SSL
             </GlassCard>
 
             <p>
-              Click <strong>Add account</strong>.  
-              Check your inbox for a verification email from Google and confirm it.
+              Click <strong>Add account</strong> and verify the email Google
+              sends you.
             </p>
 
             <hr />
 
             <h4>Done!</h4>
             <p>
-              You can now send mail from <strong>{user}@{domain}</strong> directly
-              through Gmail using Cloudflare’s SMTP service.
+              You can now send mail from <strong>{user}@{domain}</strong> using
+              Gmail + Cloudflare SMTP.
             </p>
           </GlassCard>
         )}
