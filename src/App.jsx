@@ -29,7 +29,7 @@ export default function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/guides/:email" element={<Email />} />
+          <Route path="/guides/email" element={<Email />} />
         </Routes>
       </div>
 
