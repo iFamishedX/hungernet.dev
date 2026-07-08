@@ -34,7 +34,7 @@ const stats = [
 ]
 
 export default function Home() {
-  usePageTitle("OptiFine for Fabric")
+  usePageTitle("HungerNet")
 
   return (
     <div className="page">

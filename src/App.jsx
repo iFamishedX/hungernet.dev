@@ -2,23 +2,15 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import { Navbar, Footer, ScrollToTop } from "ifamished-ui"
 
 import Home from "./pages/Home"
-import Download from "./pages/Download"
-import DownloadVersion from "./pages/download/DownloadVersion"
-import Features from "./pages/Features"
-import Install from "./pages/Install"
-import Help from "./pages/Help"
+import Email from "./pages/guides/Email"
 
 const navItems = [
   { to: "/", label: "Home", end: true },
-  { to: "/download", label: "Download" },
-  { to: "/features", label: "Features" },
-  { to: "/install", label: "Install" },
-  { to: "/help", label: "Help" },
+  { to: "/guides", label: "Guides" },
+  { to: "/guides/email", label: "Email Guide" },
 ]
 
 const socials = [
-  { label: "GitHub", href: "https://github.com/iFamishedX/optifine-for-fabric" },
-  { label: "Modrinth", href: "https://modrinth.com/project/optifine-for-fabric" },
   { label: "Discord", href: "https://discord.com/users/iFamished" },
 ]
 
@@ -26,7 +18,7 @@ export default function App() {
   return (
     <>
       <Navbar
-        brand="OptiFine for Fabric"
+        brand="HungerNet"
         brandDotColor="#38bdf8"
         navItems={navItems}
       />
@@ -37,19 +29,14 @@ export default function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/install" element={<Install />} />
-          <Route path="/download" element={<Download />} />
-          <Route path="/download/:version" element={<DownloadVersion />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/help" element={<Help />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/guides/:email" element={<Email />} />
         </Routes>
       </div>
 
       <Footer
-        brand="OptiFine for Fabric"
+        brand="HungerNet"
         socials={socials}
-        footerNote={`© ${new Date().getFullYear()} OptiFine for Fabric. Not affiliated with Mojang or OptiFine.`}
+        footerNote={`© ${new Date().getFullYear()} HungerNet. All rights reserved.`}
       />
     </>
   )
