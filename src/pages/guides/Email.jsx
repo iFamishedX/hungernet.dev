@@ -1,13 +1,38 @@
-import { useState } from "react";
-import { GlassCard, GlassButton, InputBox } from "ifamished-ui";
+import { useEffect, useState } from "react";
+import { GlassCard, GlassButton, InputBox, Icon } from "ifamished-ui";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 export default function EmailGuide() {
-  const [user, setUser] = useState("");
-  const [domain, setDomain] = useState("");
-  const [apiToken, setApiToken] = useState("");
-  const [smtpPassword, setSmtpPassword] = useState("");
+  const [params, setParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const ready = user && domain && apiToken && smtpPassword;
+  const [username, setUsername] = useState(params.get("username") || "");
+  const [domain, setDomain] = useState(params.get("domain") || "");
+  const [token, setToken] = useState(params.get("token") || "");
+  const [password, setPassword] = useState(params.get("password") || "");
+
+  const ready = username && domain && token && password;
+
+  // Sync URL with inputs
+  useEffect(() => {
+    if (ready) {
+      setParams({
+        username,
+        domain,
+        token,
+        password,
+      });
+    }
+  }, [username, domain, token, password]);
+
+  // Clear params + reset
+  const reset = () => {
+    navigate("/guides/email");
+    setUsername("");
+    setDomain("");
+    setToken("");
+    setPassword("");
+  };
 
   return (
     <div className="page">
@@ -17,70 +42,76 @@ export default function EmailGuide() {
     </div>
 
       <section className="section">
-        <GlassCard className="guide-input-card">
-          <h3>Enter Your Details</h3>
-          <p>These values will be used to generate your custom guide.</p>
+        {!ready && (
+          <GlassCard className="fade-in-up" style={{ padding: "var(--space-5)" }}>
+            <h3>Enter Your Details</h3>
+            <p style={{ marginBottom: "var(--space-4)" }}>
+              Fill out the fields below to generate a personalized setup guide.
+            </p>
 
-          <InputBox
-            value={user}
-            onChange={setUser}
-            placeholder="Email username (example)"
-          />
+            <InputBox
+              value={username}
+              onChange={setUsername}
+              placeholder="Email username (example)"
+            />
 
-          <InputBox
-            value={domain}
-            onChange={setDomain}
-            placeholder="Domain (hungernet.ifamished.com)"
-          />
+            <InputBox
+              value={domain}
+              onChange={setDomain}
+              placeholder="Domain (hungernet.ifamished.com)"
+            />
 
-          <InputBox
-            value={apiToken}
-            onChange={setApiToken}
-            placeholder="Cloudflare API Token (SMTP username)"
-          />
+            <InputBox
+              value={token}
+              onChange={setToken}
+              placeholder="Cloudflare API Token"
+            />
 
-          <InputBox
-            value={smtpPassword}
-            onChange={setSmtpPassword}
-            placeholder="SMTP Password (cfut_...)"
-          />
+            <InputBox
+              value={password}
+              onChange={setPassword}
+              placeholder="SMTP Password (cfut_...)"
+            />
 
-          <GlassButton
-            size="md"
-            variant="primary"
-            onClick={() => window.scrollTo({ top: 500, behavior: "smooth" })}
-          >
-            Generate Guide
-          </GlassButton>
-        </GlassCard>
+            <GlassButton
+              size="md"
+              variant="primary"
+              style={{ marginTop: "var(--space-4)" }}
+            >
+              <Icon name="check" size={16} />
+              Generate Guide
+            </GlassButton>
+          </GlassCard>
+        )}
 
         {ready && (
-          <GlassCard className="generated-guide fade-in-up">
-            <h3>Your Personalized Guide</h3>
+          <GlassCard className="fade-in-up" style={{ padding: "var(--space-5)" }}>
+            <div className="section-header">
+              <div className="section-label">Your Guide</div>
+              <h2>Setup Instructions</h2>
+              <p>
+                This guide is customized for{" "}
+                <strong>{username}@{domain}</strong>.
+              </p>
+            </div>
 
+            <hr />
+
+            <h3>1. Forwarding Setup</h3>
             <p>
-              This guide is for: <strong>{user}@{domain}</strong>
+              Before Gmail can send mail using your domain, forwarding must be
+              enabled. I will send you a Cloudflare verification email — open it
+              and approve the forwarding request.
             </p>
 
             <hr />
 
-            <h4>1. Initial Setup</h4>
-            <p>
-              DM me your personal Gmail address. Do <strong>NOT</strong> use a
-              school or work email — it will not work.
-            </p>
-
-            <p>
-              You will receive a Cloudflare forwarding confirmation email. Open
-              it and accept the request.
-            </p>
-
-            <hr />
-
-            <h4>2. Add Your Email to Gmail</h4>
+            <h3>2. Add Your Address in Gmail</h3>
+            <p>Inside Gmail:</p>
 
             <ul>
-              <li>Settings → See all settings → Accounts and import</li>
+              <li>Settings → See all settings</li>
+              <li>Accounts and import</li>
               <li>Send mail as → Add another email address</li>
             </ul>
 
@@ -88,34 +119,45 @@ export default function EmailGuide() {
 
             <ul>
               <li>Name: anything</li>
-              <li>Email address: <strong>{user}@{domain}</strong></li>
+              <li>Email: <strong>{username}@{domain}</strong></li>
               <li>Uncheck “Treat as an alias”</li>
             </ul>
 
-            <p>Click <strong>Next</strong> and enter:</p>
+            <p>Click <strong>Next</strong> and enter the SMTP details:</p>
 
-            <GlassCard className="smtp-values">
+            <GlassCard className="smtp-card" style={{ margin: "var(--space-4) 0" }}>
               <pre>
 SMTP Server: smtp.mx.cloudflare.net
 Port: 465
-Username: {apiToken}
-Password: {smtpPassword}
+Username: {token}
+Password: {password}
 Security: SSL
               </pre>
             </GlassCard>
 
             <p>
-              Click <strong>Add account</strong> and verify the email Google
-              sends you.
+              Click <strong>Add account</strong>.  
+              Google will send a verification email — open it and confirm.
             </p>
 
             <hr />
 
-            <h4>Done!</h4>
+            <h3>Done!</h3>
             <p>
-              You can now send mail from <strong>{user}@{domain}</strong> using
-              Gmail + Cloudflare SMTP.
+              You can now send mail from{" "}
+              <strong>{username}@{domain}</strong> directly through Gmail using
+              Cloudflare’s SMTP service.
             </p>
+
+            <GlassButton
+              variant="ghost"
+              size="sm"
+              style={{ marginTop: "var(--space-4)" }}
+              onClick={reset}
+            >
+              <Icon name="arrowLeft" size={16} />
+              Back
+            </GlassButton>
           </GlassCard>
         )}
       </section>
