@@ -6,7 +6,6 @@ import Email from "./pages/guides/Email"
 
 const navItems = [
   { to: "/", label: "Home", end: true },
-  { to: "/guides", label: "Guides" },
   { to: "/guides/email", label: "Email Guide" },
 ]
 
