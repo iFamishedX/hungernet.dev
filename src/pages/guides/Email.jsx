@@ -192,7 +192,7 @@ export default function EmailGuide() {
                       <CopyField label="Port" value="465" />
                       <CopyField label="Username" value="api_token" />
                       <CopyField label="Password" value={password} />
-                      <CopyField label="Security" value="Secured connection using SSL" />
+                      <CopyField label="Security" value="SSL" />
                     </div>
 
                     <p style={{ marginTop: "var(--space-3)" }}>
