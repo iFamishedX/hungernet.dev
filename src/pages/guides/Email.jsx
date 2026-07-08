@@ -1,37 +1,78 @@
 import { useEffect, useState } from "react";
-import { GlassCard, GlassButton, InputBox, Icon } from "ifamished-ui";
+import {
+  GlassCard,
+  GlassButton,
+  InputBox,
+  FaqAccordion,
+  Icon,
+} from "ifamished-ui";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 export default function EmailGuide() {
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState(params.get("username") || "");
-  const [domain, setDomain] = useState(params.get("domain") || "");
+  // Fields
+  const [email, setEmail] = useState(params.get("email") || "");
+  const [name, setName] = useState(params.get("name") || "");
   const [token, setToken] = useState(params.get("token") || "");
   const [password, setPassword] = useState(params.get("password") || "");
 
-  const ready = username && domain && token && password;
+  // Parsed email
+  const [username, setUsername] = useState("");
+  const [domain, setDomain] = useState("");
 
-  // Sync URL with inputs
+  // Guide visibility
+  const [generated, setGenerated] = useState(false);
+
+  // Parse email when changed
   useEffect(() => {
-    if (ready) {
-      setParams({
-        username,
-        domain,
-        token,
-        password,
-      });
+    if (!email.includes("@")) {
+      setUsername("");
+      setDomain("");
+      return;
     }
-  }, [username, domain, token, password]);
 
-  // Clear params + reset
+    const [user, dom] = email.split("@");
+    setUsername(user || "");
+    setDomain(dom || "");
+  }, [email]);
+
+  // If URL params exist → auto-generate
+  useEffect(() => {
+    if (params.get("email") && params.get("token") && params.get("password")) {
+      setGenerated(true);
+    }
+  }, []);
+
+  // Validate email
+  const validEmail =
+    email.includes("@") &&
+    email.split("@")[0].length > 0 &&
+    email.split("@")[1].includes(".");
+
+  const ready = validEmail && name && token && password;
+
+  const generateGuide = () => {
+    if (!ready) return;
+
+    setParams({
+      email,
+      name,
+      token,
+      password,
+    });
+
+    setGenerated(true);
+  };
+
   const reset = () => {
     navigate("/guides/email");
-    setUsername("");
-    setDomain("");
+    setEmail("");
+    setName("");
     setToken("");
     setPassword("");
+    setGenerated(false);
   };
 
   return (
@@ -42,7 +83,7 @@ export default function EmailGuide() {
     </div>
 
       <section className="section">
-        {!ready && (
+        {!generated && (
           <GlassCard className="fade-in-up" style={{ padding: "var(--space-5)" }}>
             <h3>Enter Your Details</h3>
             <p style={{ marginBottom: "var(--space-4)" }}>
@@ -50,15 +91,15 @@ export default function EmailGuide() {
             </p>
 
             <InputBox
-              value={username}
-              onChange={setUsername}
-              placeholder="Email username (example)"
+              value={email}
+              onChange={setEmail}
+              placeholder="Email (example@hungernet.ifamished.com)"
             />
 
             <InputBox
-              value={domain}
-              onChange={setDomain}
-              placeholder="Domain (hungernet.ifamished.com)"
+              value={name}
+              onChange={setName}
+              placeholder="Name (Display name in Gmail)"
             />
 
             <InputBox
@@ -77,6 +118,8 @@ export default function EmailGuide() {
               size="md"
               variant="primary"
               style={{ marginTop: "var(--space-4)" }}
+              disabled={!ready}
+              onClick={generateGuide}
             >
               <Icon name="check" size={16} />
               Generate Guide
@@ -84,70 +127,86 @@ export default function EmailGuide() {
           </GlassCard>
         )}
 
-        {ready && (
+        {generated && (
           <GlassCard className="fade-in-up" style={{ padding: "var(--space-5)" }}>
             <div className="section-header">
-              <div className="section-label">Your Guide</div>
-              <h2>Setup Instructions</h2>
+              <div className="section-label">Setup Guide</div>
+              <h2>Your Configuration</h2>
               <p>
                 This guide is customized for{" "}
-                <strong>{username}@{domain}</strong>.
+                <strong>{email}</strong>.
               </p>
             </div>
 
-            <hr />
+            <div className="faq-list stagger" style={{ marginTop: "var(--space-5)" }}>
+              <FaqAccordion
+                q="1. Forwarding Setup"
+                a={
+                  <>
+                    <p>
+                      Before Gmail can send mail using your domain, forwarding must be
+                      enabled. You will receive a Cloudflare verification email — open it
+                      and approve the forwarding request.
+                    </p>
+                  </>
+                }
+              />
 
-            <h3>1. Forwarding Setup</h3>
-            <p>
-              Before Gmail can send mail using your domain, forwarding must be
-              enabled. I will send you a Cloudflare verification email — open it
-              and approve the forwarding request.
-            </p>
+              <FaqAccordion
+                q="2. Add Your Address in Gmail"
+                a={
+                  <>
+                    <p>Inside Gmail:</p>
+                    <ul>
+                      <li>Settings → See all settings</li>
+                      <li>Accounts and import</li>
+                      <li>Send mail as → Add another email address</li>
+                    </ul>
 
-            <hr />
+                    <p>Enter:</p>
+                    <ul>
+                      <li>Name: <strong>{name}</strong></li>
+                      <li>Email: <strong>{email}</strong></li>
+                      <li>Uncheck “Treat as an alias”</li>
+                    </ul>
+                  </>
+                }
+              />
 
-            <h3>2. Add Your Address in Gmail</h3>
-            <p>Inside Gmail:</p>
-
-            <ul>
-              <li>Settings → See all settings</li>
-              <li>Accounts and import</li>
-              <li>Send mail as → Add another email address</li>
-            </ul>
-
-            <p>Enter:</p>
-
-            <ul>
-              <li>Name: anything</li>
-              <li>Email: <strong>{username}@{domain}</strong></li>
-              <li>Uncheck “Treat as an alias”</li>
-            </ul>
-
-            <p>Click <strong>Next</strong> and enter the SMTP details:</p>
-
-            <GlassCard className="smtp-card" style={{ margin: "var(--space-4) 0" }}>
-              <pre>
+              <FaqAccordion
+                q="3. SMTP Configuration"
+                a={
+                  <>
+                    <GlassCard className="smtp-card" style={{ margin: "var(--space-4) 0" }}>
+                      <pre>
 SMTP Server: smtp.mx.cloudflare.net
 Port: 465
 Username: {token}
 Password: {password}
 Security: SSL
-              </pre>
-            </GlassCard>
+                      </pre>
+                    </GlassCard>
+                    <p>
+                      Click <strong>Add account</strong>. Google will send a verification
+                      email — open it and confirm.
+                    </p>
+                  </>
+                }
+              />
 
-            <p>
-              Click <strong>Add account</strong>.  
-              Google will send a verification email — open it and confirm.
-            </p>
-
-            <hr />
-
-            <h3>Done!</h3>
-            <p>
-              You can now send mail from{" "}
-              <strong>{username}@{domain}</strong> directly through Gmail using
-              Cloudflare’s SMTP service.
-            </p>
+              <FaqAccordion
+                q="4. Finished"
+                a={
+                  <>
+                    <p>
+                      You can now send mail from{" "}
+                      <strong>{email}</strong> directly through Gmail using Cloudflare’s
+                      SMTP service.
+                    </p>
+                  </>
+                }
+              />
+            </div>
 
             <GlassButton
               variant="ghost"
