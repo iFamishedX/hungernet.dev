@@ -449,8 +449,10 @@
 /* Error text INSIDE the input box container */
 .input-error {
   position: absolute;
-  bottom: -18px; /* hugs the bottom border perfectly */
+  bottom: -18px;
   left: 0;
+  width: 100%;
+  text-align: center;
   font-size: 0.8rem;
   color: #ef4444;
   pointer-events: none;
