@@ -112,7 +112,7 @@ export default function EmailGuide() {
                     placeholder="Email (you@example.com)"
                   />
                   {showErrors && !validEmail && (
-                    <div className="input-error">Please enter a valid email address.</div>
+                    <div className="input-error">Please enter a valid email address</div>
                   )}
                 </div>
               </div>
@@ -125,7 +125,7 @@ export default function EmailGuide() {
                     placeholder="Name (John Doe)"
                   />
                   {showErrors && !validName && (
-                    <div className="input-error">Name cannot be empty.</div>
+                    <div className="input-error">Name cannot be empty</div>
                   )}
                 </div>
               </div>
