@@ -446,7 +446,7 @@
   position: absolute;
   left: 0;
   top: 100%;
-  transform: translateY(2px);
+  transform: translateY(-6px);
   width: 100%;
   font-size: 0.8rem;
   line-height: 1.2;
