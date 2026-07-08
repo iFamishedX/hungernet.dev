@@ -111,7 +111,7 @@ export default function EmailGuide() {
                   placeholder="Email (you@example.com)"
                 />
                 {showErrors && !validEmail && (
-                  <p className="error-text">Please enter a valid email address.</p>
+                  <span className="error-text">Please enter a valid email address.</span>
                 )}
               </div>
 
@@ -122,7 +122,7 @@ export default function EmailGuide() {
                   placeholder="Name (John Doe)"
                 />
                 {showErrors && !validName && (
-                  <p className="error-text">Name cannot be empty.</p>
+                  <span className="error-text">Name cannot be empty.</span>
                 )}
               </div>
 
@@ -133,7 +133,7 @@ export default function EmailGuide() {
                   placeholder="SMTP Password (cfut_...)"
                 />
                 {showErrors && !validPassword && (
-                  <p className="error-text">Password must begin with cfut_</p>
+                  <span className="error-text">Password must begin with cfut_</span>
                 )}
               </div>
             </div>
