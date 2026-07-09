@@ -31,7 +31,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tools/email" element={<Email />} />
-          <Route path="/tools/srv-generator" element={<Email />} />
+          <Route path="/tools/srv-generator" element={<SRVGenerator />} />
         </Routes>
       </div>
 
