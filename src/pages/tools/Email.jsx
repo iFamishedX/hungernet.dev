@@ -95,7 +95,11 @@ export default function EmailGuide() {
     <div className="page">
       <div className="page-header fade-in-up">
         <h1>Email Setup Guide</h1>
-        <p>Generate a Cloudflare email setup guide.</p>
+        <p>
+          {provider === "hungernet"
+            ? "Generate a HungerNet email setup guide."
+            : "Generate a Cloudflare email setup guide."}
+        </p>
       </div>
 
       <section className="section">
