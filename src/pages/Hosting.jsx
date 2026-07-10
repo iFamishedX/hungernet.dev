@@ -2,12 +2,12 @@ import { GlassCard, GlassButton, usePageTitle, Icon } from "ifamished-ui"
 
 const hostingFeatures = [
   {
-    icon: "zap",
+    icon: "bolt",
     title: "Insane Performance",
     desc: "SparkedHost uses top‑tier hardware with blazing‑fast CPUs and NVMe storage. Your server launches instantly and runs smoothly even under heavy load.",
   },
   {
-    icon: "clock",
+    icon: "checkCircle",
     title: "Instant Setup",
     desc: "Pay → Provision → Play. Your Minecraft server is online in under 5 minutes with zero hassle.",
   },
@@ -27,42 +27,9 @@ const hostingFeatures = [
     desc: "Whether you're hosting a small SMP or a large public server, SparkedHost scales effortlessly.",
   },
   {
-    icon: "dollarSign",
+    icon: "sparkles",
     title: "Shockingly Affordable",
     desc: "Plans start as low as $1/month — one of the best price‑to‑performance ratios in the entire hosting industry.",
-  },
-]
-
-const hostingPlans = [
-  {
-    name: "Budget Minecraft",
-    price: "$1.00 / mo",
-    features: [
-      "Perfect for small SMPs",
-      "Fast NVMe storage",
-      "Instant setup",
-      "DDoS protection",
-    ],
-  },
-  {
-    name: "Premium Minecraft",
-    price: "$4.00 / mo",
-    features: [
-      "High‑end CPUs",
-      "Modded server ready",
-      "Unlimited player slots",
-      "Advanced performance tuning",
-    ],
-  },
-  {
-    name: "Enterprise",
-    price: "$8.00 / mo",
-    features: [
-      "Maximum performance",
-      "Heavy modpacks",
-      "Large communities",
-      "Priority support",
-    ],
   },
 ]
 
@@ -91,45 +58,42 @@ export default function Hosting() {
         </div>
       </section>
 
-      {/* Plans */}
+      {/* Single Big Hosting Card */}
       <section className="section">
-        <div className="section-header">
-          <div className="section-label">Choose your plan</div>
-          <h2>Hosting Plans</h2>
-          <p>Pick the perfect plan for your server — all powered by SparkedHost.</p>
-        </div>
+        <GlassCard className="project-card fade-in-up" style={{ "--i": 0 }}>
+          <h3 className="project-title">Get Hosting with SparkedHost</h3>
+          <p className="project-desc">
+            SparkedHost offers unmatched performance, reliability, and affordability — making it one of the best hosting providers for Minecraft servers of any size.
+          </p>
 
-        <div className="projects-grid stagger">
-          {hostingPlans.map((p, i) => (
-            <GlassCard key={p.name} className="project-card" style={{ "--i": i }}>
-              <h3 className="project-title">{p.name}</h3>
-              <p className="project-desc">{p.price}</p>
+          <ul className="project-list">
+            <li>Blazing‑fast NVMe storage</li>
+            <li>High‑end CPUs for maximum performance</li>
+            <li>Instant server setup</li>
+            <li>Enterprise‑grade DDoS protection</li>
+            <li>Perfect for SMPs, modded servers, and large communities</li>
+            <li>One‑click installers for Fabric, Forge, Purpur, Folia, and more</li>
+            <li>Modern, easy‑to‑use control panel</li>
+            <li>Plans starting at just $1/month</li>
+          </ul>
 
-              <ul className="project-list">
-                {p.features.map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
-              </ul>
-
-              <div className="project-links">
-                <GlassButton
-                  href="https://billing.sparkedhost.com/aff.php?aff=3222"
-                  size="sm"
-                  variant="primary"
-                >
-                  <Icon name="arrowRight" size={16} />
-                  Get Hosting
-                </GlassButton>
-              </div>
-            </GlassCard>
-          ))}
-        </div>
+          <div className="project-links">
+            <GlassButton
+              href="https://billing.sparkedhost.com/aff.php?aff=3222"
+              size="sm"
+              variant="primary"
+            >
+              <Icon name="arrowRight" size={16} />
+              Get Hosting
+            </GlassButton>
+          </div>
+        </GlassCard>
       </section>
 
       {/* CTA */}
       <div className="cta-section fade-in-up">
-        <h2>Ready to start your server?</h2>
-        <p>Launch your Minecraft server today with SparkedHost — fast, reliable, and affordable.</p>
+        <h2>Looking for other tools?</h2>
+        <p>Check out some below.</p>
 
         <div className="cta-actions">
           <GlassButton
