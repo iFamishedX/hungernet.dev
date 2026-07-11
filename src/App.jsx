@@ -4,6 +4,8 @@ import { Navbar, Footer, ScrollToTop } from "ifamished-ui"
 import Home from "./pages/Home"
 import Hosting from "./pages/Hosting"
 import Tools from "./pages/Tools"
+import Email from "./pages/tools/Email"
+import SRVGenerator from "./pages/tools/SRVGenerator"
 
 const navItems = [
   { to: "/", label: "Home", end: true },
@@ -32,6 +34,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/hosting" element={<Hosting />} />
           <Route path="/tools" element={<Tools />} />
+          <Route path="/tools/email" element={<Email />} />
+          <Route path="/tools/srv-generator" element={<SRVGenerator />} />
         </Routes>
       </div>
 
