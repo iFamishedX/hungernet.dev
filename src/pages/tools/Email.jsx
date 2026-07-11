@@ -6,10 +6,12 @@ import {
   InputBox,
   FaqAccordion,
   Icon,
+  usePageTitle,
 } from "ifamished-ui";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 export default function EmailGuide() {
+  usePageTitle("HungerNet | Email Setup");
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -33,8 +35,7 @@ export default function EmailGuide() {
 
   // Parse email
   useEffect(() => {
-    const emailRegex =
-      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
     if (!emailRegex.test(email)) {
       setUsername("");

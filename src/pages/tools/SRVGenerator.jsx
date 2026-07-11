@@ -6,10 +6,12 @@ import {
   InputBox,
   FaqAccordion,
   Icon,
+  usePageTitle,
 } from "ifamished-ui";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 export default function SRVGenerator() {
+  usePageTitle("HungerNet | SRV Generator");
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
 
