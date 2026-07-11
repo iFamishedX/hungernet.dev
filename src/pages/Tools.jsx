@@ -66,7 +66,7 @@ const tools = [
 ]
 
 export default function Tools() {
-  usePageTitle("iFamished | Tools")
+  usePageTitle("HungerNet | Tools")
 
   return (
     <div className="page">
